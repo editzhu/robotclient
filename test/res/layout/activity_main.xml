@@ -1,0 +1,121 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ToggleButton
+        android:id="@+id/toggleButton1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="点击此处遥控机器人"
+        android:textOn="可遥控状态" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10px"
+        android:layout_marginLeft="10px"
+        android:layout_marginRight="10px"
+        android:layout_weight="5"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_q"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="急停" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10px"
+        android:layout_marginLeft="10px"
+        android:layout_marginRight="10px"
+        android:layout_weight="4"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_a"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="左" />
+
+        <TextView
+            android:id="@+id/textView_degree"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#00ff00"
+            android:textSize="50sp" />
+
+        <Button
+            android:id="@+id/button_d"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="右" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10px"
+        android:layout_marginLeft="10px"
+        android:layout_marginRight="10px"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_w"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="加档" />
+
+        <TextView
+            android:id="@+id/textView_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#00ff00"
+            android:textSize="50sp" />
+
+        <Button
+            android:id="@+id/button_s"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="减档" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10px"
+        android:layout_marginLeft="10px"
+        android:layout_marginRight="10px"
+        android:layout_weight="4"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="任务" />
+
+        <Button
+            android:id="@+id/button_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="退出" />
+    </LinearLayout>
+
+</LinearLayout>
