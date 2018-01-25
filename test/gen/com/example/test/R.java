@@ -1091,18 +1091,18 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f05004e;
+        public static final int action_settings=0x7f05004f;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
-        public static final int button_1=0x7f050046;
-        public static final int button_2=0x7f050047;
-        public static final int button_3=0x7f050048;
-        public static final int button_4=0x7f050049;
-        public static final int button_5=0x7f05004a;
-        public static final int button_6=0x7f05004b;
-        public static final int button_7=0x7f05004c;
-        public static final int button_8=0x7f05004d;
+        public static final int button_1=0x7f050047;
+        public static final int button_2=0x7f050048;
+        public static final int button_3=0x7f050049;
+        public static final int button_4=0x7f05004a;
+        public static final int button_5=0x7f05004b;
+        public static final int button_6=0x7f05004c;
+        public static final int button_7=0x7f05004d;
+        public static final int button_8=0x7f05004e;
         public static final int button_a=0x7f05003e;
         public static final int button_d=0x7f050040;
         public static final int button_q=0x7f05003d;
@@ -1152,6 +1152,7 @@ containing a value of this type.
         public static final int submit_area=0x7f050039;
         public static final int tabMode=0x7f050002;
         public static final int textView_degree=0x7f05003f;
+        public static final int textView_info1=0x7f050046;
         public static final int textView_speed=0x7f050042;
         public static final int title=0x7f05002b;
         public static final int toggleButton1=0x7f05003c;
@@ -1258,9 +1259,8 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
-        public static final int action_settings=0x7f0a000f;
+        public static final int action_settings=0x7f0a000e;
         public static final int app_name=0x7f0a000d;
-        public static final int hello_world=0x7f0a000e;
     }
     public static final class style {
         /** 

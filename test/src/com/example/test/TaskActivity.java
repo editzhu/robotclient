@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import android.content.Loader.ForceLoadContentObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,20 +17,21 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 
-public class TaskActivity extends ActionBarActivity implements OnClickListener{
+public class TaskActivity extends ActionBarActivity implements OnClickListener {
 	String addr = "192.168.1.10";
 	int port = 18888;
-	
-	private Button button_4;
-	
-	public int T = 60; //倒计时时长  
-    private Handler mHandler = new Handler();  
-	
+
+	private Button[] buttons = new Button[6];
+
+	public int T = 60; // 倒计时时长
+	private Handler mHandler = new Handler();
+
 	MyTask mTask = new MyTask();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_task);
 		findViewById(R.id.button_1).setOnClickListener(TaskActivity.this);
 		findViewById(R.id.button_2).setOnClickListener(TaskActivity.this);
@@ -39,88 +41,105 @@ public class TaskActivity extends ActionBarActivity implements OnClickListener{
 		findViewById(R.id.button_6).setOnClickListener(TaskActivity.this);
 		findViewById(R.id.button_7).setOnClickListener(TaskActivity.this);
 		findViewById(R.id.button_8).setOnClickListener(TaskActivity.this);
-		
-		button_4 = (Button)this.findViewById(R.id.button_4);
+
+		buttons[0] = (Button) this.findViewById(R.id.button_1);
+		buttons[1] = (Button) this.findViewById(R.id.button_2);
+		buttons[2] = (Button) this.findViewById(R.id.button_3);
+		buttons[3] = (Button) this.findViewById(R.id.button_4);
+		buttons[4] = (Button) this.findViewById(R.id.button_5);
+		buttons[5] = (Button) this.findViewById(R.id.button_6);
 	}
-	
-//	CountDownTimer timer = new CountDownTimer(10000, 1000) {
-//		private String s=button_4.getText().toString();
-//        @Override
-//        public void onTick(long millisUntilFinished) {
-//            button_4.setEnabled(false);
-//            button_4.setText(s+"(" + millisUntilFinished / 1000 + ")");
-//
-//        }
-//
-//        @Override
-//        public void onFinish() {
-//        	button_4.setEnabled(true);
-//        	button_4.setText(s);
-//
-//        }
-//    };
-	
-    class MyCountDownTimer implements Runnable{  
-    	private String s=button_4.getText().toString();  
-        @Override  
-        public void run() {  
-  
-            //倒计时开始，循环  
-            while (T > 0) {  
-                mHandler.post(new Runnable() {  
-                    @Override  
-                    public void run() {  
-                    	button_4.setEnabled(false);  
-                        button_4.setText(T + "秒");  
-                    }  
-                });  
-                try {  
-                    Thread.sleep(1000); //强制线程休眠1秒，就是设置倒计时的间隔时间为1秒。  
-                } catch (InterruptedException e) {  
-                    e.printStackTrace();  
-                }  
-                T--;  
-            }  
-  
-            //倒计时结束，也就是循环结束  
-            mHandler.post(new Runnable() {  
-                @Override  
-                public void run() {  
-                	button_4.setClickable(true);  
-                	button_4.setText(s);  
-                }  
-            });  
-            T = 10; //最后再恢复倒计时时长  
-        }  
-    }  
-	
+
+	// CountDownTimer timer = new CountDownTimer(10000, 1000) {
+	// private String s=button_4.getText().toString();
+	// @Override
+	// public void onTick(long millisUntilFinished) {
+	// button_4.setEnabled(false);
+	// button_4.setText(s+"(" + millisUntilFinished / 1000 + ")");
+	//
+	// }
+	//
+	// @Override
+	// public void onFinish() {
+	// button_4.setEnabled(true);
+	// button_4.setText(s);
+	//
+	// }
+	// };
+
+	class MyCountDownTimer implements Runnable {
+		private String s[] = new String[6];
+
+		@Override
+		public void run() {
+			for (int i = 0; i < 6; i++) {
+				s[i] = buttons[i].getText().toString();
+			}
+			// 倒计时开始，循环
+			while (T > 0) {
+				mHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						for (int i = 0; i < 6; i++) {
+							buttons[i].setEnabled(false);
+							buttons[i].setText(s[i] + T + "秒");
+						}
+					}
+				});
+				try {
+					Thread.sleep(1000); // 强制线程休眠1秒，就是设置倒计时的间隔时间为1秒。
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				T--;
+			}
+
+			// 倒计时结束，也就是循环结束
+			mHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					for (int i = 0; i < 6; i++) {
+						buttons[i].setEnabled(true);
+						buttons[i].setText(s[i]);
+					}
+				}
+			});
+			T = 10; // 最后再恢复倒计时时长
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 
 		switch (v.getId()) {
 		case R.id.button_1:
+			new Thread(new MyCountDownTimer()).start();
 			mTask = new MyTask();
 			mTask.execute("1");
 			break;
 		case R.id.button_2:
+			new Thread(new MyCountDownTimer()).start();
 			mTask = new MyTask();
 			mTask.execute("2");
 			break;
 		case R.id.button_3:
+			new Thread(new MyCountDownTimer()).start();
 			mTask = new MyTask();
 			mTask.execute("3");
 			break;
 		case R.id.button_4:
-			//timer.start();
-			new Thread(new MyCountDownTimer()).start();//开始执行 
+			// timer.start();
+			new Thread(new MyCountDownTimer()).start();
 			mTask = new MyTask();
 			mTask.execute("4");
 			break;
 		case R.id.button_5:
+			new Thread(new MyCountDownTimer()).start();
 			mTask = new MyTask();
 			mTask.execute("5");
 			break;
 		case R.id.button_6:
+			new Thread(new MyCountDownTimer()).start();
 			mTask = new MyTask();
 			mTask.execute("6");
 			break;
@@ -164,7 +183,7 @@ public class TaskActivity extends ActionBarActivity implements OnClickListener{
 					bytes[9] = 4;
 				}
 				if ("5".equals(parms[0])) {
-					bytes[9] =5;
+					bytes[9] = 5;
 				}
 				if ("6".equals(parms[0])) {
 					bytes[9] = 6;
@@ -201,9 +220,5 @@ public class TaskActivity extends ActionBarActivity implements OnClickListener{
 		protected void onCancelled() {
 		}
 	}
-
-	
-
-
 
 }

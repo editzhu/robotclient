@@ -3,54 +3,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-  <Button 
+
+    <TextView
+        android:id="@+id/textView_info1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="按下按钮后，机器人启动巡逻需要约1分钟时间预热，请耐心等待"
+        android:textColor="#00ff00"
+        android:textSize="20sp" />
+
+    <Button
         android:id="@+id/button_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="按设置时间-大圈"
-        />
-  <Button 
+        android:text="按设置时间-大圈" />
+
+    <Button
         android:id="@+id/button_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="按设置时间-中圈"
-        />
-  <Button 
+        android:text="按设置时间-中圈" />
+
+    <Button
         android:id="@+id/button_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="按设置时间-小圈"
-        />
-    <Button 
+        android:text="按设置时间-小圈" />
+
+    <Button
         android:id="@+id/button_4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="临时演示-大圈"
-        />
-    <Button 
+        android:text="临时演示-大圈" />
+
+    <Button
         android:id="@+id/button_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="临时演示-中圈"
-        />
-      <Button 
+        android:text="临时演示-中圈" />
+
+    <Button
         android:id="@+id/button_6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="临时演示-小圈"
-        />
-      <Button 
+        android:text="临时演示-小圈" />
+
+    <Button
         android:id="@+id/button_7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="中止任务"
-        />
-      <Button 
+        android:text="中止任务" />
+
+    <Button
         android:id="@+id/button_8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="返回"
-        />
-      
+        android:text="返回" />
+
 </LinearLayout>
