@@ -147,7 +147,7 @@ public class TaskActivity extends ActionBarActivity implements OnClickListener {
 		case R.id.button_7:
 			new AlertDialog.Builder(this)
 					.setTitle("确认")
-					.setMessage("请确认是否要终止任务？")
+					.setMessage("请确认是否要终止任务 ？")
 					.setPositiveButton("是",
 							new DialogInterface.OnClickListener() {
 								@Override
