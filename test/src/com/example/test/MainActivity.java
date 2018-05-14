@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 	int MinDegree = -7;
 
 	String addr = "192.168.1.10";
+	//String addr="192.168.1.109";
 	int port = 8888;
 	// 变量
 	int CurrentSpeed = 0;
@@ -37,6 +38,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 	private Button button_a;
 	private Button button_s;
 	private Button button_d;
+	private Button button_start;
 	private TextView TextSpeed;
 	private TextView TextDegree;
 	private ToggleButton toggleButton1;
@@ -61,12 +63,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 		button_a = (Button) this.findViewById(R.id.button_a);
 		button_s = (Button) this.findViewById(R.id.button_s);
 		button_d = (Button) this.findViewById(R.id.button_d);
+		button_start = (Button) this.findViewById(R.id.button_start);
 		toggleButton1 = (ToggleButton) this.findViewById(R.id.toggleButton1);
 		TextSpeed = (TextView) this.findViewById(R.id.textView_speed);
 		TextDegree = (TextView) this.findViewById(R.id.textView_degree);
 
 		toggleButton1.setChecked(false);
 		setButtonEnabled(false);
+		Log.d("main", "oncreate");
 	}
 
 	@Override
@@ -90,12 +94,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 		super.onStop();
 	}
 
-	private void ResetUI() {
-		TextSpeed.setText(String.valueOf(CurrentSpeed));
-		TextDegree.setText(String.valueOf(CurrentDegree));
-	}
-
-	@Override
 	public void onClick(View v) {
 
 		switch (v.getId()) {
@@ -104,7 +102,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 			CurrentDegree = 0;
 			mTask = new MyTask();
 			mTask.execute("q");
-			ResetUI();
 			break;
 		case R.id.button_w:
 			if (CurrentSpeed < MaxSpeed) {
@@ -113,7 +110,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 				mTask = new MyTask();
 				mTask.execute("w");
 			}
-			ResetUI();
 			break;
 		case R.id.button_s:
 			if (CurrentSpeed > MinSpeed) {
@@ -122,7 +118,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 				mTask = new MyTask();
 				mTask.execute("s");
 			}
-			ResetUI();
 			break;
 		case R.id.button_a:
 			if (CurrentDegree < MaxDegree) {
@@ -131,7 +126,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 				mTask = new MyTask();
 				mTask.execute("a");
 			}
-			ResetUI();
 			break;
 		case R.id.button_d:
 			if (CurrentDegree > MinDegree) {
@@ -140,13 +134,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 				mTask = new MyTask();
 				mTask.execute("d");
 			}
-			ResetUI();
 			break;
 		case R.id.button_start:
-			// mTask = new MyTask();
-			// mTask.execute("start");
-			// Toast.makeText(MainActivity.this, "You clicked Button 1",
-			// Toast.LENGTH_SHORT).show();
+			CurrentSpeed = 0;
+			CurrentDegree = 0;
+			mTask = new MyTask();
+			mTask.execute("q");
 			new AlertDialog.Builder(this)
 					.setTitle("确认")
 					.setMessage("请确认机器人是否已经遥控到正确位置了？")
@@ -166,6 +159,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 		case R.id.button_stop:
 			// mTask = new MyTask();
 			// mTask.execute("stop");
+			//android.os.Process.killProcess(android.os.Process.myPid());
 			finish();
 			break;
 		case R.id.toggleButton1:
@@ -174,7 +168,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 			} else {
 				setButtonEnabled(false);
 			}
-			ResetUI();
 			break;
 
 		default:
@@ -183,21 +176,25 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 	}
 
 	void setButtonEnabled(boolean flag) {
+		Log.d("main", "onsetbuttonenabled");
 		button_q.setEnabled(flag);
 		button_w.setEnabled(flag);
 		button_a.setEnabled(flag);
 		button_d.setEnabled(flag);
 		button_s.setEnabled(flag);
+		button_start.setEnabled(flag);
 		if (flag) {
 			mTask = new MyTask();
-			mTask.execute("1");
+			mTask.execute("login");
 
+			mTask = new MyTask();
+			mTask.execute("1");
+		} else {
 			// before control,click "q" first.
 			CurrentSpeed = 0;
 			CurrentDegree = 0;
 			mTask = new MyTask();
 			mTask.execute("q");
-		} else {
 
 			mTask = new MyTask();
 			mTask.execute("0");
@@ -215,27 +212,24 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 		// doInBackground方法内部执行后台任务,不可在此方法内修改UI
 		protected String doInBackground(String... parms) {
-
+			Log.d("main", "task doInBackground");
 			// Socket socket = null;
 			DatagramSocket UDPsocket = null;
 			try {
-				// socket = new Socket(parms[0], 8888);
-				// System.out.println("socket has connected");
-				//
-				// //2.得到socket读写流
-				//
-				// OutputStream os=socket.getOutputStream();
-				// OutputStreamWriter pw=new OutputStreamWriter (os);
-				//
-				// BufferedWriter bw = new BufferedWriter(pw);
-				//
-				// bw.write("TIME");
-				// bw.flush();
-				UDPsocket = new DatagramSocket(port);
-				InetAddress serverAddress = InetAddress.getByName(addr);
-
 				byte bytes[] = { 0x40, 0x23, 0, 0, 0, 4, 0, 1, 1, 1 };
 				port = 8888;
+				if ("login".equals(parms[0])) {//20180507修改为发送中止任务
+					Log.d("main", "task doInBackground login");
+					port = 18888;
+//					bytes[0] = 22;
+//					bytes[1] = 44;
+//					bytes[2] = 66;
+//					bytes[3] = 66;
+					bytes[0] = 0x40;
+					bytes[1] = 0x40;
+					bytes[9] = 7;
+				}
+
 				if ("w".equals(parms[0])) {
 					bytes[9] = 2;
 				}
@@ -251,46 +245,58 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 				if ("q".equals(parms[0])) {
 					bytes[9] = 6;
 				}
-				if ("1".equals(parms[0])) {
+				if ("1".equals(parms[0])) {//发送此命令开启机器人受遥控的状态
 					bytes[9] = 1;
 				}
-				if ("0".equals(parms[0])) {
+				if ("0".equals(parms[0])) {//发送此命令关闭机器人受遥控的状态
 					bytes[9] = 0;
 				}
-				// if ("start".equals(parms[0])) {
-				// port = 18888;
-				// bytes[1] = 64;
-				// bytes[9] = 1;
-				// }
-				// if ("stop".equals(parms[0])) {
-				// port = 18888;
-				// bytes[1] = 64;
-				// bytes[9] = 2;
-				// }
+
+				UDPsocket = new DatagramSocket();
+				InetAddress serverAddress = InetAddress.getByName(addr);
+
 				DatagramPacket p = new DatagramPacket(bytes, bytes.length,
 						serverAddress, port);
 				UDPsocket.send(p);
-				// Log.d("main2", String.valueOf(bytes.length));
+				Log.d("main", "task doInBackground end send");
 				// 从服务端程序接收数据
-				// InputStream ips = socket.getInputStream();
-				// InputStreamReader ipsr = new InputStreamReader(ips);
-				// BufferedReader br = new BufferedReader(ipsr);
-				// String s = "";
-				// String result="";
-				// while((s = br.readLine()) != null) {
-				// result += s;
-				// System.out.println(s);
+				// Log.d("main",
+				// String.valueOf(bytes[0]) + String.valueOf(bytes[1]));
+				// if (bytes[0] == 22 && bytes[1] == 44) {
+				// Log.d("main", "begin receive data");
+				// try {
+				// UDPsocket.receive(p);
+				// String result = new String(p.getData(), 0,
+				// p.getLength());
+				// Log.d("main", "end receive data: " + result);
+				// if ("no".equals(result)) {
+				// Log.d("main", "no");
+				// return "no";
+				// } else if ("yes".equals(result)) {
+				// Log.d("main", "yes");
+				// return "yes";
+				// } else {
+				// Log.d("main", "unknow1");
+				// return "nuknow";
+				// }
+				// } catch (IOException e) {
+				// Log.d("main", "IOException");
+				// e.printStackTrace();
+				// }
+				//
 				// }
 				UDPsocket.close();
+				UDPsocket = null;
 				// return result;
-				return "d";
+				Log.d("main", "ok");
+				return "OK";
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Log.d("main", "f");
-			return "off";
+			Log.d("main", "error");
+			return "ERROR";
 		}
 
 		// onProgressUpdate方法用于更新进度信息
@@ -300,7 +306,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 		// onPostExecute方法用于在执行完后台任务后更新UI,显示结果
 		protected void onPostExecute(String result) {
-			// TextTime.setText(result);
+			if ("OK".equals(result)) {
+				TextSpeed.setText(String.valueOf(CurrentSpeed));
+				TextDegree.setText(String.valueOf(CurrentDegree));
+			}
+			if ("no".equals(result)) {
+				finish();
+			}
 		}
 
 		// onCancelled方法用于在取消执行中的任务时更改UI

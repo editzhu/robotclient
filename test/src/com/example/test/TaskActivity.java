@@ -6,7 +6,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import android.content.Loader.ForceLoadContentObserver;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +16,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 
 public class TaskActivity extends ActionBarActivity implements OnClickListener {
@@ -31,7 +32,7 @@ public class TaskActivity extends ActionBarActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_task);
 		findViewById(R.id.button_1).setOnClickListener(TaskActivity.this);
 		findViewById(R.id.button_2).setOnClickListener(TaskActivity.this);
@@ -104,7 +105,7 @@ public class TaskActivity extends ActionBarActivity implements OnClickListener {
 					}
 				}
 			});
-			T = 10; // 最后再恢复倒计时时长
+			T = 60; // 最后再恢复倒计时时长
 		}
 	}
 
@@ -144,8 +145,19 @@ public class TaskActivity extends ActionBarActivity implements OnClickListener {
 			mTask.execute("6");
 			break;
 		case R.id.button_7:
-			mTask = new MyTask();
-			mTask.execute("7");
+			new AlertDialog.Builder(this)
+					.setTitle("确认")
+					.setMessage("请确认是否要终止任务？")
+					.setPositiveButton("是",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									mTask = new MyTask();
+									mTask.execute("7");
+								}
+							}).setNegativeButton("否", null).show();
+
 			break;
 		case R.id.button_8:
 			finish();
